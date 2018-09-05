@@ -1,0 +1,49 @@
+<div class="card mb-2 sticky-top">
+  <div class="card-body" *ngIf="task">
+    <h4 class="card-title">
+      <strong>{{title}}</strong>
+    </h4>
+    <div class="md-form">
+      <label for="summary" class="">Summary</label>
+      <input type="text" id="summary" class="form-control" [(ngModel)]="task.summary" mdbInputDirective>
+    </div>
+    <div class="md-form">
+      <label for="description">Description</label>
+      <textarea type="text" id="description" class="md-textarea form-control" [(ngModel)]="task.description" mdbInputDirective></textarea>
+    </div>
+    <div class="md-form">
+      <label>Start Date</label>
+      <input type="date" id="startDate" class="form-control" [(ngModel)]="task.startDate" mdbInputDirective placeholder="">
+    </div>
+    <div class="md-form">
+      <label>End Date</label>
+      <input type="date" id="endDate" class="form-control" [(ngModel)]="task.endDate" mdbInputDirective placeholder="">
+    </div>
+    <div class="md-form">
+      <label for="priority" class="">Priority</label>
+      <input type="range" id="priority" class="form-control" [(ngModel)]="task.priority" mdbInputDirective min="0" max="4"
+        step="1">
+    </div>
+    <div class="md-form">
+      <span class="grey-text">Parent</span>
+      <select id="parentID" class="form-control" [(ngModel)]="task.parentID">
+        <option *ngFor="let taskName of allTaskNames" [value]="taskName.id">{{taskName.summary}}</option>
+      </select>
+    </div>
+    <div class="md-form">
+        <span class="grey-text">Status</span>
+      <select id="status" class="form-control" [(ngModel)]="task.status">
+        <option value="0">Not Started</option>
+        <option value="1">In Progress</option>
+        <option value="2">Deferred</option>
+        <option value="3">Complete</option>
+      </select>
+    </div>
+    <div class="md-form">
+      <button type="button" class="btn btn-default btn-md waves-light" (click)="save()" mdbWavesEffect>
+        <i class="fa fa-lg fa-save mr-1"></i> {{saveButtonTitle}}</button>
+      <button type="button" class="btn btn-blue-grey btn-md waves-light" (click)="cancel()" mdbWavesEffect>
+        <i class="fa fa-lg fa-remove mr-1"> </i> {{cancelButtonTitle}}</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<section>
+  <div class="container py-3">
+    <div class="row">
+      <div class="col-md-8">
+        <ul class="tasks">
+          <li *ngFor="let task of tasks" [class.selected]="task === selectedTask">
+            <div class="card mb-2" id="Task_{{task.taskID}}">
+              <div class="card-body">
+                <h4 class="card-title">
+                  <strong>{{task.summary}}</strong>
+                </h4>
+                <p class="card-text" *ngIf="task.description">{{task.description}}</p>
+                <p class="card-text">
+                  <span *ngIf="task.startDate">
+                    <strong>Start By: </strong>{{task.startDate | date: 'dd MMM yyyy'}}, </span>
+                  <span *ngIf="task.endDate">
+                    <strong>End By: </strong>{{task.endDate | date: 'dd MMM yyyy'}}</span>
+                </p>
+                <p class="card-text" *ngIf="task.parentID >= 0">
+                  <strong>Parent Task: </strong>
+                  <a routerLink="." fragment="Task_{{task.parentID}}">{{getTaskSummary(task.parentID)}}</a>
+                </p>
+                <p class="card-text">
+                  <span *ngIf="task.priority >= 0">
+                    <strong>Priority: </strong>{{task.priority}} </span>
+                  <span *ngIf="task.status >= 0">
+                    <strong>Status: </strong>{{task.status}} </span>
+                </p>
+                <button type="button" class="btn btn-primary btn-sm waves-light" mdbWavesEffect (click)="onSelect(task)" [disabled]="task.status === 3">
+                  <i class="fa fa-lg fa-edit mr-1"></i> Edit</button>
+                <button type="button" class="btn btn-secondary btn-sm waves-light" (click)="completeTask(task)" mdbWavesEffect [disabled]="task.status === 3">
+                  <i class="fa fa-lg fa-check mr-1"></i> End Task</button>
+                <button type="button" class="btn btn-danger btn-sm waves-light" (click)="delete(task)" mdbWavesEffect>
+                  <i class="fa fa-lg fa-remove mr-1"></i> Delete Task</button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <app-add-update-task [task]="selectedTask" [allTaskNames]="allTaskNames" [mode]="activeMode" (taskAdded)="onTaskAdded($event)"
+          (taskUpdated)="onTaskUpdated($event)" (resetMode)="onResetMode($event)"></app-add-update-task>
+      </div>
+    </div>
+  </div>
+</section>
