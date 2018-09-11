@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 import { Task } from '../models/task';
-import { TaskService } from './../task.service';
+import { ProjectManagerService } from './../projectmanager.service';
 import { Location } from '@angular/common';
 
 @Component({
@@ -15,18 +15,21 @@ export class AddUpdateTaskComponent implements OnInit {
   cancelButtonTitle = 'Reset';
 
   @Input() task: Task = {
-    taskID: null,
-    summary: null
+    taskId: null,
+    summary: null,
+    projectId: null
   };
 
   @Input() allTaskNames: any[];
+  @Input() allProjectNames: any[];
+  @Input() allUserNames: any[];
 
   @Output() taskAdded = new EventEmitter<Task>();
   @Output() taskUpdated = new EventEmitter<Task>();
   @Output() resetMode = new EventEmitter<void>();
 
   constructor(
-    private taskService: TaskService,
+    private projectManagerService: ProjectManagerService,
     private location: Location) { }
 
   ngOnInit() {
@@ -50,7 +53,7 @@ export class AddUpdateTaskComponent implements OnInit {
   }
 
   private update(): void {
-    this.taskService.updateTask(this.task)
+    this.projectManagerService.updateTask(this.task)
     .subscribe(task => {
       this.taskUpdated.emit(task);
     });
@@ -61,7 +64,7 @@ export class AddUpdateTaskComponent implements OnInit {
 
     if (!summary) { return; }
 
-    this.taskService.addTask(this.task)
+    this.projectManagerService.addTask(this.task)
       .subscribe(task => {
         this.taskAdded.emit(task);
       });

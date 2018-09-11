@@ -25,18 +25,30 @@
         step="1">
     </div>
     <div class="md-form">
+      <span class="grey-text">Project</span>
+      <select id="projectId" class="form-control" [(ngModel)]="task.projectId">
+        <option *ngFor="let projectName of allProjectNames" [value]="projectName.id">{{projectName.summary}}</option>
+      </select>
+    </div>
+    <div class="md-form">
+      <span class="grey-text">Assigned To</span>
+      <select id="userId" class="form-control" [(ngModel)]="task.userId">
+        <option *ngFor="let userName of allUserNames" [value]="userName.id">{{userName.fullName}}</option>
+      </select>
+    </div>
+    <div class="md-form">
       <span class="grey-text">Parent</span>
-      <select id="parentID" class="form-control" [(ngModel)]="task.parentID">
+      <select id="parentId" class="form-control" [(ngModel)]="task.parentId">
         <option *ngFor="let taskName of allTaskNames" [value]="taskName.id">{{taskName.summary}}</option>
       </select>
     </div>
     <div class="md-form">
         <span class="grey-text">Status</span>
       <select id="status" class="form-control" [(ngModel)]="task.status">
-        <option value="0">Not Started</option>
-        <option value="1">In Progress</option>
-        <option value="2">Deferred</option>
-        <option value="3">Complete</option>
+        <option value="NotStarted">Not Started</option>
+        <option value="InProgress">In Progress</option>
+        <option value="Deferred">Deferred</option>
+        <option value="Completed">Completed</option>
       </select>
     </div>
     <div class="md-form">

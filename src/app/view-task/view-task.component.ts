@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Task } from '../models/task';
-import { TaskService } from './../task.service';
+import { ProjectManagerService } from './../projectmanager.service';
 import { allResolved } from 'q';
 
 @Component({
@@ -11,29 +11,56 @@ import { allResolved } from 'q';
 export class ViewTaskComponent implements OnInit {
   tasks: Task[];
   selectedTask: Task = {
-    taskID: null,
-    summary: null
+    taskId: null,
+    summary: null,
+    projectId: null
   };
   activeMode = 'ADD'; // ADD | EDIT
   allTaskNames: any[];
+  allProjectNames: any[];
+  allUserNames: any[];
 
-  constructor(private taskService: TaskService) { }
+  constructor(private projectManagerService: ProjectManagerService) { }
 
   ngOnInit() {
     this.getTasks();
   }
 
   getTasks(): void {
-    this.taskService.getTasks()
+    this.projectManagerService.getTasks()
       .subscribe(tasks => {
         this.tasks = tasks;
         this.refreshTaskNames();
       });
+
+    this.projectManagerService.getProjects()
+      .subscribe(projects => {
+        this.allProjectNames = projects.map((p) => {
+          const projectName = {
+            id: p.projectId,
+            summary: p.summary
+          };
+
+          return projectName;
+        });
+      });
+
+    this.projectManagerService.getUsers()
+      .subscribe(users => {
+        this.allUserNames = users.map((u) => {
+          const userName = {
+            id: u.userId,
+            fullName: u.fullName
+          };
+
+          return userName;
+        });
+      });
   }
 
   delete(task: Task): void {
-    this.taskService.deleteTask(task).subscribe(_ => {
-      this.tasks = this.tasks.filter(t => t.taskID !== task.taskID);
+    this.projectManagerService.deleteTask(task).subscribe(_ => {
+      this.tasks = this.tasks.filter(t => t.taskId !== task.taskId);
       this.resetMode();
       this.refreshTaskNames();
     });
@@ -41,16 +68,28 @@ export class ViewTaskComponent implements OnInit {
 
   completeTask(task: Task): void {
     // Status value for 'Completed'
-    task.status = 3;
-    this.taskService.updateTask(task).subscribe(updatedTask => {
+    task.status = 'Completed';
+    this.projectManagerService.updateTask(task).subscribe(updatedTask => {
       this.onTaskUpdated(updatedTask);
     });
   }
 
   getTaskSummary(taskId: number) {
-    const foundTask = this.tasks.find((task) => task.taskID === taskId);
+    const foundTask = this.tasks.find((task) => task.taskId === taskId);
 
     return foundTask ? foundTask.summary : '';
+  }
+
+  getProjectSummary(projectId: number) {
+    const foundProject = this.allProjectNames.find((projectName) => projectName.id === projectId);
+
+    return foundProject ? foundProject.summary : '';
+  }
+
+  getUserFullName(userId: number) {
+    const foundUser = this.allUserNames.find((userName) => userName.id === userId);
+
+    return foundUser ? foundUser.fullName : '';
   }
 
   onSelect(task: Task): void {
@@ -67,7 +106,7 @@ export class ViewTaskComponent implements OnInit {
   }
 
   onTaskUpdated(task: Task): void {
-    const index = this.tasks.findIndex((t) => t.taskID === task.taskID);
+    const index = this.tasks.findIndex((t) => t.taskId === task.taskId);
 
     if (index >= 0 ) {
       this.tasks[index] = task;
@@ -84,7 +123,7 @@ export class ViewTaskComponent implements OnInit {
   refreshTaskNames(): void {
     this.allTaskNames = this.tasks.map((t) => {
       const taskName = {
-        id: t.taskID,
+        id: t.taskId,
         summary: t.summary
       };
 
@@ -94,8 +133,9 @@ export class ViewTaskComponent implements OnInit {
 
   resetMode(): void {
     this.selectedTask = {
-      taskID: null,
-      summary: null
+      taskId: null,
+      summary: null,
+      projectId: null
     };
 
     this.activeMode = 'ADD';
