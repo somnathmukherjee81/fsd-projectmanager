@@ -8,6 +8,6 @@ export class Project {
     priority?: number;
     status?: string;
     managerId?: number;
-    numberOfTasks: number;
-    numberOfCompletedTasks: number;
+    numberOfTasks?: number;
+    numberOfCompletedTasks?: number;
   }

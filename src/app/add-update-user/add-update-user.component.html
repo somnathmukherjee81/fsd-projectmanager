@@ -1,0 +1,37 @@
+<div class="card mb-2 sticky-top">
+  <div class="card-body" *ngIf="user">
+    <h4 class="card-title">
+      <strong>{{title}}</strong>
+    </h4>
+    <div class="md-form" [hidden]="activeMode === 'ADD'">
+      <label for="employeeId" class="">Employee Id</label>
+      <input type="text" id="employeeId" class="form-control" [(ngModel)]="user.employeeId" mdbInputDirective [disabled]="activeMode === 'EDIT'">
+    </div>
+    <div class="md-form">
+      <label for="firstName" class="">First Name</label>
+      <input type="text" id="firstName" class="form-control" [(ngModel)]="user.firstName" mdbInputDirective>
+    </div>
+    <div class="md-form">
+      <label for="lastName" class="">Last Name</label>
+      <input type="text" id="lastName" class="form-control" [(ngModel)]="user.lastName" mdbInputDirective>
+    </div>
+    <div class="md-form">
+      <span class="grey-text">Project</span>
+      <select id="projectId" class="form-control" [(ngModel)]="user.projectId">
+        <option *ngFor="let projectName of allProjectNames" [value]="projectName.id">{{projectName.summary}}</option>
+      </select>
+    </div>
+    <div class="md-form">
+      <span class="grey-text">Managed Project</span>
+      <select id="projectId" class="form-control" [(ngModel)]="user.managedProjectId">
+        <option *ngFor="let projectName of allProjectNames" [value]="projectName.id">{{projectName.summary}}</option>
+      </select>
+    </div>
+    <div class="md-form">
+      <button type="button" class="btn btn-default btn-md waves-light" (click)="save()" mdbWavesEffect>
+        <i class="fa fa-lg fa-save mr-1"></i> {{saveButtonTitle}}</button>
+      <button type="button" class="btn btn-blue-grey btn-md waves-light" (click)="cancel()" mdbWavesEffect>
+        <i class="fa fa-lg fa-remove mr-1"> </i> {{cancelButtonTitle}}</button>
+    </div>
+  </div>
+</div>

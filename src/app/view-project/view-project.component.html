@@ -1,0 +1,57 @@
+<section>
+  <div class="container py-3">
+    <div class="row">
+      <div class="col-md-8">
+        <ul class="projects">
+          <li *ngFor="let project of projects" [class.selected]="project === selectedProject">
+            <div class="card mb-2" id="Project_{{project.projectId}}">
+              <div class="card-body">
+                <h4 class="card-title">
+                  <strong>{{project.summary}}</strong>
+                </h4>
+                <p class="card-text" *ngIf="project.description">{{project.description}}</p>
+                <p class="card-text">
+                  <span *ngIf="project.startDate">
+                    <strong>Start By: </strong>{{project.startDate | date: 'dd MMM yyyy'}}, </span>
+                  <span *ngIf="project.endDate">
+                    <strong>End By: </strong>{{project.endDate | date: 'dd MMM yyyy'}}</span>
+                </p>
+                <p class="card-text" *ngIf="project.managerId >= 0">
+                  <strong>Manager: </strong>
+                  <a routerLink="." fragment="User_{{project.managerId}}">{{getUserFullName(project.managerId)}}</a>
+                </p>
+                <p class="card-text">
+                  <span *ngIf="project.priority >= 0">
+                    <strong>Priority: </strong>{{project.priority}} </span>
+                  <span *ngIf="project.status">
+                    <strong>Status: </strong>{{project.status}} </span>
+                </p>
+                <p class="card-text">
+                  <span>
+                    <strong>Number of Tasks: </strong>{{project.numberOfTasks}} </span>
+                  <span>
+                    <strong>Completed: </strong>{{project.numberOfCompletedTasks}} </span>
+                </p>
+                <button type="button" class="btn btn-primary btn-sm waves-light" mdbWavesEffect (click)="onSelect(project)" [disabled]="project.status === 'Completed'">
+                  <i class="fa fa-lg fa-edit mr-1"></i> Edit</button>
+                <button type="button" class="btn btn-secondary btn-sm waves-light" (click)="completeProject(project)" mdbWavesEffect [disabled]="project.status === 'Completed'">
+                  <i class="fa fa-lg fa-check mr-1"></i> End Project</button>
+                <button type="button" class="btn btn-danger btn-sm waves-light" (click)="delete(project)" mdbWavesEffect>
+                  <i class="fa fa-lg fa-remove mr-1"></i> Delete Project</button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <app-add-update-project 
+          [project]="selectedProject" 
+          [allUserNames]="allUserNames"
+          [mode]="activeMode" 
+          (projectAdded)="onProjectAdded($event)"
+          (projectUpdated)="onProjectUpdated($event)" 
+          (resetMode)="onResetMode($event)"></app-add-update-project>
+      </div>
+    </div>
+  </div>
+</section>
