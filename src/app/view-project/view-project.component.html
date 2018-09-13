@@ -34,6 +34,8 @@
                 </p>
                 <button type="button" class="btn btn-primary btn-sm waves-light" mdbWavesEffect (click)="onSelect(project)" [disabled]="project.status === 'Completed'">
                   <i class="fa fa-lg fa-edit mr-1"></i> Edit</button>
+                <button type="button" class="btn btn-secondary btn-sm waves-light" (click)="suspendProject(project)" mdbWavesEffect [disabled]="project.status === 'Suspended' || project.status === 'Completed'">
+                  <i class="fa fa-lg fa-archive mr-1"></i> Suspend Project</button>
                 <button type="button" class="btn btn-secondary btn-sm waves-light" (click)="completeProject(project)" mdbWavesEffect [disabled]="project.status === 'Completed'">
                   <i class="fa fa-lg fa-check mr-1"></i> End Project</button>
                 <button type="button" class="btn btn-danger btn-sm waves-light" (click)="delete(project)" mdbWavesEffect>

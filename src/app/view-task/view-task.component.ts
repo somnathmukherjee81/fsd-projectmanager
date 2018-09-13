@@ -67,8 +67,15 @@ export class ViewTaskComponent implements OnInit {
   }
 
   completeTask(task: Task): void {
-    // Status value for 'Completed'
-    task.status = 'Completed';
+    this.updateTaskStatus(task, 'Completed');
+  }
+
+  suspendTask(task: Task): void {
+    this.updateTaskStatus(task, 'Suspended');
+  }
+
+  updateTaskStatus(task: Task, status: string): void {
+    task.status = status;
     this.projectManagerService.updateTask(task).subscribe(updatedTask => {
       this.onTaskUpdated(updatedTask);
     });

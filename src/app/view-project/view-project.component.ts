@@ -50,8 +50,15 @@ export class ViewProjectComponent implements OnInit {
   }
 
   completeProject(project: Project): void {
-    // Status value for 'Completed'
-    project.status = 'Completed';
+    this.updateProjectStatus(project, 'Completed');
+  }
+
+  suspendProject(project: Project): void {
+    this.updateProjectStatus(project, 'Suspended');
+  }
+
+  updateProjectStatus(project: Project, status: string): void {
+    project.status = status;
     this.projectManagerService.updateProject(project).subscribe(updatedProject => {
       this.onProjectUpdated(updatedProject);
     });
