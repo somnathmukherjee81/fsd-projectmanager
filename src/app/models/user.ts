@@ -6,5 +6,4 @@ export class User {
     fullName: string;
     employeeId: string;
     projectId?: number;
-    managedProjectId?: number;
   }

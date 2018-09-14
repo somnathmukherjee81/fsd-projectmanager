@@ -16,10 +16,6 @@
                   <strong>Project: </strong>
                   <a routerLink="." fragment="Project_{{user.projectId}}">{{getProjectSummary(user.projectId)}}</a>
                 </p>
-                <p class="card-text" *ngIf="user.managedProjectId >= 0">
-                  <strong>Manages Project: </strong>
-                  <a routerLink="." fragment="Project_{{user.managedProjectId}}">{{getProjectSummary(user.managedProjectId)}}</a>
-                </p>
                 <button type="button" class="btn btn-primary btn-sm waves-light" mdbWavesEffect (click)="onSelect(user)">
                   <i class="fa fa-lg fa-edit mr-1"></i> Edit</button>
                 <button type="button" class="btn btn-danger btn-sm waves-light" (click)="delete(user)" mdbWavesEffect>

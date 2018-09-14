@@ -26,19 +26,31 @@
     </div>
     <div class="md-form">
       <span class="grey-text">Manager</span>
-      <select id="userId" class="form-control" [(ngModel)]="project.managerId">
+      <!-- <select id="userId" class="form-control" [(ngModel)]="project.managerId">
         <option *ngFor="let userName of allUserNames" [value]="userName.id">{{userName.fullName}}</option>
-      </select>
+      </select> -->
+      <ng-select id="userId" [items]="allUserNames"
+           bindLabel="fullName"
+           bindValue="id"
+           [(ngModel)]="project.managerId">
+      </ng-select>
     </div>
     <div class="md-form">
         <span class="grey-text">Status</span>
-      <select id="status" class="form-control" [(ngModel)]="project.status">
+      <!-- <select id="status" class="form-control" [(ngModel)]="project.status">
         <option value="NotStarted">Not Started</option>
         <option value="InProgress">In Progress</option>
         <option value="Deferred">Deferred</option>
         <option value="Suspended">Suspended</option>
         <option value="Completed">Completed</option>
-      </select>
+      </select> -->
+      <ng-select id="status" [(ngModel)]="project.status">
+        <ng-option value="NotStarted">Not Started</ng-option>
+        <ng-option value="InProgress">In Progress</ng-option>
+        <ng-option value="Deferred">Deferred</ng-option>
+        <ng-option value="Suspended">Suspended</ng-option>
+        <ng-option value="Completed">Completed</ng-option>
+      </ng-select>
     </div>
     <div class="md-form">
       <button type="button" class="btn btn-default btn-md waves-light" (click)="save()" mdbWavesEffect>

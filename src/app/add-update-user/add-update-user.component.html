@@ -17,15 +17,14 @@
     </div>
     <div class="md-form">
       <span class="grey-text">Project</span>
-      <select id="projectId" class="form-control" [(ngModel)]="user.projectId">
+      <!-- <select id="projectId" class="form-control" [(ngModel)]="user.projectId">
         <option *ngFor="let projectName of allProjectNames" [value]="projectName.id">{{projectName.summary}}</option>
-      </select>
-    </div>
-    <div class="md-form">
-      <span class="grey-text">Managed Project</span>
-      <select id="projectId" class="form-control" [(ngModel)]="user.managedProjectId">
-        <option *ngFor="let projectName of allProjectNames" [value]="projectName.id">{{projectName.summary}}</option>
-      </select>
+      </select> -->
+      <ng-select id="projectId" [items]="allProjectNames"
+           bindLabel="summary"
+           bindValue="id"
+           [(ngModel)]="user.projectId">
+      </ng-select>
     </div>
     <div class="md-form">
       <button type="button" class="btn btn-default btn-md waves-light" (click)="save()" mdbWavesEffect>

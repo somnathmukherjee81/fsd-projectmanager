@@ -125,7 +125,6 @@ export const USERS: User[] = [
         lastName: 'Sutherland',
         fullName: 'Sutherland, Jeff',
         employeeId: '100013',
-        projectId: 1,
-        managedProjectId: 1
+        projectId: 1
     }
 ];
