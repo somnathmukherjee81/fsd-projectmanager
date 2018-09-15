@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Project } from '../models/project';
 import { ProjectManagerService } from './../projectmanager.service';
 import { Location } from '@angular/common';
@@ -13,6 +14,7 @@ export class AddUpdateProjectComponent implements OnInit {
   title = 'Add Project';
   saveButtonTitle = 'Add Project';
   cancelButtonTitle = 'Reset';
+  submitted = false;
 
   @Input() project: Project = {
     projectId: null,
@@ -41,7 +43,13 @@ export class AddUpdateProjectComponent implements OnInit {
 
   }
 
-  save(): void {
+  save(form: NgForm): void {
+    if (!form.valid) {
+      return;
+    }
+
+    this.submitted = true;
+
     if (this.activeMode === 'EDIT') {
       this.update();
     } else if (this.activeMode === 'ADD') {

@@ -3,60 +3,65 @@
     <h4 class="card-title">
       <strong>{{title}}</strong>
     </h4>
-    <div class="md-form">
-      <label for="summary" class="">Summary</label>
-      <input type="text" id="summary" class="form-control" [(ngModel)]="project.summary" mdbInputDirective>
-    </div>
-    <div class="md-form">
-      <label for="description">Description</label>
-      <textarea type="text" id="description" class="md-textarea form-control" [(ngModel)]="project.description" mdbInputDirective></textarea>
-    </div>
-    <div class="md-form">
-      <label>Start Date</label>
-      <input type="date" id="startDate" class="form-control" [(ngModel)]="project.startDate" mdbInputDirective placeholder="">
-    </div>
-    <div class="md-form">
-      <label>End Date</label>
-      <input type="date" id="endDate" class="form-control" [(ngModel)]="project.endDate" mdbInputDirective placeholder="">
-    </div>
-    <div class="md-form">
-      <label for="priority" class="">Priority</label>
-      <input type="range" id="priority" class="form-control" [(ngModel)]="project.priority" mdbInputDirective min="0" max="4"
-        step="1">
-    </div>
-    <div class="md-form">
-      <span class="grey-text">Manager</span>
-      <!-- <select id="userId" class="form-control" [(ngModel)]="project.managerId">
-        <option *ngFor="let userName of allUserNames" [value]="userName.id">{{userName.fullName}}</option>
-      </select> -->
-      <ng-select id="userId" [items]="allUserNames"
-           bindLabel="fullName"
-           bindValue="id"
-           [(ngModel)]="project.managerId">
-      </ng-select>
-    </div>
-    <div class="md-form">
-        <span class="grey-text">Status</span>
-      <!-- <select id="status" class="form-control" [(ngModel)]="project.status">
-        <option value="NotStarted">Not Started</option>
-        <option value="InProgress">In Progress</option>
-        <option value="Deferred">Deferred</option>
-        <option value="Suspended">Suspended</option>
-        <option value="Completed">Completed</option>
-      </select> -->
-      <ng-select id="status" [(ngModel)]="project.status">
-        <ng-option value="NotStarted">Not Started</ng-option>
-        <ng-option value="InProgress">In Progress</ng-option>
-        <ng-option value="Deferred">Deferred</ng-option>
-        <ng-option value="Suspended">Suspended</ng-option>
-        <ng-option value="Completed">Completed</ng-option>
-      </ng-select>
-    </div>
-    <div class="md-form">
-      <button type="button" class="btn btn-default btn-md waves-light" (click)="save()" mdbWavesEffect>
-        <i class="fa fa-lg fa-save mr-1"></i> {{saveButtonTitle}}</button>
-      <button type="button" class="btn btn-blue-grey btn-md waves-light" (click)="cancel()" mdbWavesEffect>
-        <i class="fa fa-lg fa-remove mr-1"> </i> {{cancelButtonTitle}}</button>
-    </div>
+    <form #addUpdateProjectForm="ngForm" (ngSubmit)="save(addUpdateProjectForm)">
+      <div class="md-form">
+        <label for="summary" class="">Summary *</label>
+        <input type="text" id="summary" name="summary" class="form-control" [(ngModel)]="project.summary" #summary="ngModel" mdbInputDirective [mdbValidate]="false" required maxlength="255">
+        <div *ngIf="!summary.valid" class="alert alert-danger">Summary is required</div>
+      </div>
+      <div class="md-form">
+        <label for="description">Description</label>
+        <textarea type="text" id="description" name="description" class="md-textarea form-control" [(ngModel)]="project.description" mdbInputDirective [mdbValidate]="false" maxlength="5000"></textarea>
+      </div>
+      <div class="md-form">
+        <label>Start Date</label>
+        <input type="date" id="startDate" name="startDate" class="form-control" [(ngModel)]="project.startDate" mdbInputDirective placeholder="" [mdbValidate]="false">
+      </div>
+      <div class="md-form">
+        <label>End Date</label>
+        <input type="date" id="endDate" name="endDate" class="form-control" [(ngModel)]="project.endDate" mdbInputDirective placeholder="" [mdbValidate]="false">
+      </div>
+      <div class="md-form">
+        <label for="priority" class="">Priority</label>
+        <input type="range" id="priority" name="priority" class="form-control" [(ngModel)]="project.priority" mdbInputDirective min="0" max="4"
+          step="1" [mdbValidate]="false">
+      </div>
+      <div class="md-form">
+        <span class="grey-text">Manager</span>
+        <!-- <select id="userId" class="form-control" [(ngModel)]="project.managerId">
+          <option *ngFor="let userName of allUserNames" [value]="userName.id">{{userName.fullName}}</option>
+        </select> -->
+        <ng-select id="userId"
+          name="userId" 
+          [items]="allUserNames"
+          bindLabel="fullName"
+          bindValue="id"
+          [(ngModel)]="project.managerId">
+        </ng-select>
+      </div>
+      <div class="md-form">
+          <span class="grey-text">Status</span>
+        <!-- <select id="status" class="form-control" [(ngModel)]="project.status">
+          <option value="NotStarted">Not Started</option>
+          <option value="InProgress">In Progress</option>
+          <option value="Deferred">Deferred</option>
+          <option value="Suspended">Suspended</option>
+          <option value="Completed">Completed</option>
+        </select> -->
+        <ng-select id="status" name="status" [(ngModel)]="project.status">
+          <ng-option value="NotStarted">Not Started</ng-option>
+          <ng-option value="InProgress">In Progress</ng-option>
+          <ng-option value="Deferred">Deferred</ng-option>
+          <ng-option value="Suspended">Suspended</ng-option>
+          <ng-option value="Completed">Completed</ng-option>
+        </ng-select>
+      </div>
+      <div class="md-form">
+        <button type="submit" class="btn btn-default btn-md waves-light" mdbWavesEffect [disabled]="!addUpdateProjectForm.form.valid">
+          <i class="fa fa-lg fa-save mr-1"></i> {{saveButtonTitle}}</button>
+        <button type="button" class="btn btn-blue-grey btn-md waves-light" (click)="cancel()" mdbWavesEffect>
+          <i class="fa fa-lg fa-remove mr-1"> </i> {{cancelButtonTitle}}</button>
+      </div>
+    </form>
   </div>
 </div>

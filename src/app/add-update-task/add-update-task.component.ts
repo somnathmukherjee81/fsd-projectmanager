@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Task } from '../models/task';
 import { ProjectManagerService } from './../projectmanager.service';
 import { Location } from '@angular/common';
@@ -13,6 +14,7 @@ export class AddUpdateTaskComponent implements OnInit {
   title = 'Add Task';
   saveButtonTitle = 'Add Task';
   cancelButtonTitle = 'Reset';
+  submitted = false;
 
   @Input() task: Task = {
     taskId: null,
@@ -44,7 +46,13 @@ export class AddUpdateTaskComponent implements OnInit {
 
   }
 
-  save(): void {
+  save(form: NgForm): void {
+    if (!form.valid) {
+      return;
+    }
+
+    this.submitted = true;
+
     if (this.activeMode === 'EDIT') {
       this.update();
     } else if (this.activeMode === 'ADD') {
