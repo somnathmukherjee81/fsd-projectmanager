@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, AfterViewInit, ViewChild } from '@angular/core';
 import { Task } from '../models/task';
 import { ProjectManagerService } from './../projectmanager.service';
 import { allResolved } from 'q';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-view-task',
   templateUrl: './view-task.component.html',
   styleUrls: ['./view-task.component.scss']
 })
-export class ViewTaskComponent implements OnInit {
+export class ViewTaskComponent implements OnInit, AfterViewInit {
+  private sorted = false;
+  private localMoment = moment;
   tasks: Task[];
   selectedTask: Task = {
     taskId: null,
@@ -19,17 +22,30 @@ export class ViewTaskComponent implements OnInit {
   allTaskNames: any[];
   allProjectNames: any[];
   allUserNames: any[];
+  sortBy = 'startDate';
 
-  constructor(private projectManagerService: ProjectManagerService) { }
+  @ViewChild('sortByStartDate') sortByStartDate: ElementRef;
+
+  constructor(
+    private projectManagerService: ProjectManagerService,
+    private el: ElementRef,
+    private renderer: Renderer2) { }
 
   ngOnInit() {
+    this.localMoment.locale('en');
     this.getTasks();
+  }
+
+  ngAfterViewInit() {
+    this.renderer.addClass(this.sortByStartDate.nativeElement, 'active');
+    this.renderer.setAttribute(this.sortByStartDate.nativeElement, 'aria-pressed', 'true');
   }
 
   getTasks(): void {
     this.projectManagerService.getTasks()
       .subscribe(tasks => {
         this.tasks = tasks;
+        this.sort(this.sortBy);
         this.refreshTaskNames();
       });
 
@@ -146,6 +162,33 @@ export class ViewTaskComponent implements OnInit {
     };
 
     this.activeMode = 'ADD';
+  }
+
+  sort(by: string | any): void {
+    this.sortBy = by;
+
+    this.tasks.sort((a: any, b: any) => {
+      let val1 = a[by];
+      let val2 = b[by];
+
+      if (by === 'startDate' || by === 'endDate') {
+        val1 = this.localMoment.utc(val1).valueOf();
+        val2 = this.localMoment.utc(val2).valueOf();
+      } else if (by === 'priority') {
+        val1 = parseInt(val1, 10);
+        val2 = parseInt(val2, 10);
+      }
+
+      if (val1 < val2) {
+        return this.sorted ? 1 : -1;
+      }
+      if (val1 > val2) {
+        return this.sorted ? -1 : 1;
+      }
+      return 0;
+    });
+
+    this.sorted = !this.sorted;
   }
 
 }

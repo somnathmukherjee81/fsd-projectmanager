@@ -1,7 +1,33 @@
 <section>
   <div class="container py-3">
+    <h3 class="feature-title">Users</h3>
+    <div class="bc-icons-2">
+      <ol class="breadcrumb indigo lighten-4">
+        <li class="breadcrumb-item"><a class="black-text" href="#">Home</a>
+          <mdb-icon icon="caret-right" class="mx-2"></mdb-icon>
+        </li>
+        <li class="breadcrumb-item active">Users</li>
+      </ol>    
+    </div>
     <div class="row">
       <div class="col-md-8">
+        <div class="card mb-2">
+          <div class="card-body">
+            <div class="md-form mt-0">
+              <input class="form-control mr-sm-2" type="text" placeholder="Search by name">
+            </div>
+            Sort By: 
+            <button mdbBtn type="button" class="btn btn-secondary btn-sm waves-light" mdbWavesEffect [(ngModel)]="sortBy" mdbRadio="firstName" btnCheckboxTrue="1" btnCheckboxFalse="0" (click)="sort('firstName')">
+              First Name
+            </button>
+            <button mdbBtn type="button" class="btn btn-secondary btn-sm waves-light" mdbWavesEffect [(ngModel)]="sortBy" mdbRadio="lastName" btnCheckboxTrue="1" btnCheckboxFalse="0" (click)="sort('lastName')">
+              Last Name
+            </button>
+            <button #sortByEmployeeId mdbBtn type="button" class="btn btn-secondary btn-sm waves-light" mdbWavesEffect [(ngModel)]="sortBy" mdbRadio="employeeId" btnCheckboxTrue="1" btnCheckboxFalse="0" (click)="sort('employeeId')">
+              Employee Id
+            </button>
+          </div>
+        </div>
         <ul class="users">
           <li *ngFor="let user of users" [class.selected]="user === selectedUser">
             <div class="card mb-2" id="User_{{user.userId}}">

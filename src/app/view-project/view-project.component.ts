@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, AfterViewInit, ViewChild } from '@angular/core';
 import { Project } from '../models/project';
 import { ProjectManagerService } from './../projectmanager.service';
 import { allResolved } from 'q';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-view-project',
   templateUrl: './view-project.component.html',
   styleUrls: ['./view-project.component.scss']
 })
-export class ViewProjectComponent implements OnInit {
+export class ViewProjectComponent implements OnInit, AfterViewInit {
+  private sorted = false;
+  private localMoment = moment;
   projects: Project[];
   selectedProject: Project = {
     projectId: null,
@@ -16,17 +19,30 @@ export class ViewProjectComponent implements OnInit {
   };
   activeMode = 'ADD'; // ADD | EDIT
   allUserNames: any[];
+  sortBy = 'startDate';
 
-  constructor(private projectManagerService: ProjectManagerService) { }
+  @ViewChild('sortByStartDate') sortByStartDate: ElementRef;
+
+  constructor(
+    private projectManagerService: ProjectManagerService,
+    private el: ElementRef,
+    private renderer: Renderer2) { }
 
   ngOnInit() {
+    this.localMoment.locale('en');
     this.getProjects();
+  }
+
+  ngAfterViewInit() {
+    this.renderer.addClass(this.sortByStartDate.nativeElement, 'active');
+    this.renderer.setAttribute(this.sortByStartDate.nativeElement, 'aria-pressed', 'true');
   }
 
   getProjects(): void {
     this.projectManagerService.getProjects()
       .subscribe(projects => {
         this.projects = projects;
+        this.sort(this.sortBy);
       });
 
     this.projectManagerService.getUsers()
@@ -102,6 +118,33 @@ export class ViewProjectComponent implements OnInit {
     };
 
     this.activeMode = 'ADD';
+  }
+
+  sort(by: string | any): void {
+    this.sortBy = by;
+
+    this.projects.sort((a: any, b: any) => {
+      let val1 = a[by];
+      let val2 = b[by];
+
+      if (by === 'startDate' || by === 'endDate') {
+        val1 = this.localMoment.utc(val1).valueOf();
+        val2 = this.localMoment.utc(val2).valueOf();
+      } else if (by === 'priority') {
+        val1 = parseInt(val1, 10);
+        val2 = parseInt(val2, 10);
+      }
+
+      if (val1 < val2) {
+        return this.sorted ? 1 : -1;
+      }
+      if (val1 > val2) {
+        return this.sorted ? -1 : 1;
+      }
+      return 0;
+    });
+
+    this.sorted = !this.sorted;
   }
 
 }
