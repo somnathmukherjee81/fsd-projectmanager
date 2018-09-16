@@ -175,13 +175,17 @@ export class ViewTaskComponent implements OnInit, AfterViewInit {
         val1 = this.localMoment.utc(val1).valueOf();
         val2 = this.localMoment.utc(val2).valueOf();
       } else if (by === 'priority') {
-        val1 = parseInt(val1, 10);
-        val2 = parseInt(val2, 10);
+        val1 = parseInt(val1, 10) || -1;
+        val2 = parseInt(val2, 10) || -1;
+      } else {
+        val1 = val1 || '';
+        val2 = val2 || '';
       }
 
       if (val1 < val2) {
         return this.sorted ? 1 : -1;
       }
+
       if (val1 > val2) {
         return this.sorted ? -1 : 1;
       }
