@@ -23,6 +23,7 @@ export class ViewTaskComponent implements OnInit, AfterViewInit {
   allProjectNames: any[];
   allUserNames: any[];
   sortBy = 'startDate';
+  filterByProjectId: number;
 
   @ViewChild('sortByStartDate') sortByStartDate: ElementRef;
 
@@ -193,6 +194,15 @@ export class ViewTaskComponent implements OnInit, AfterViewInit {
     });
 
     this.sorted = !this.sorted;
+  }
+
+  filter() {
+    if (!this.filterByProjectId) {
+      return this.tasks;
+    }
+
+    return this.tasks.filter((task) =>
+      task.projectId === this.filterByProjectId);
   }
 
 }

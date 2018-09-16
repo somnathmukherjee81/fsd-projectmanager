@@ -19,7 +19,6 @@
         <div *ngIf="!lastName.valid" class="alert alert-danger">Last Name is required</div>
       </div>
       <div class="md-form">
-        <span class="grey-text">Project</span>
         <!-- <select id="projectId" class="form-control" [(ngModel)]="user.projectId">
           <option *ngFor="let projectName of allProjectNames" [value]="projectName.id">{{projectName.summary}}</option>
         </select> -->
@@ -28,7 +27,8 @@
           [items]="allProjectNames"
           bindLabel="summary"
           bindValue="id"
-          [(ngModel)]="user.projectId">
+          [(ngModel)]="user.projectId"
+          placeholder="Project">
         </ng-select>
       </div>
       <div class="md-form">

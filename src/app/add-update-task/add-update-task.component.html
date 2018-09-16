@@ -22,12 +22,11 @@
         <input type="date" id="endDate" name="endDate" class="form-control" [(ngModel)]="task.endDate" mdbInputDirective placeholder="" [mdbValidate]="false">
       </div>
       <div class="md-form">
-        <label for="priority" class="">Priority</label>
+        <label for="priority" class="">Priority {{task.priority >= 0 ? '(' + task.priority + ')' : ''}}</label>
         <input type="range" id="priority" name="priority"  class="form-control" [(ngModel)]="task.priority" mdbInputDirective min="0" max="4"
           step="1" [mdbValidate]="false">
       </div>
       <div class="md-form">
-        <span class="grey-text">Project *</span>
         <!-- <select id="projectId" class="form-control" [(ngModel)]="task.projectId">
           <option *ngFor="let projectName of allProjectNames" [value]="projectName.id">{{projectName.summary}}</option>
         </select> -->
@@ -38,12 +37,12 @@
           bindValue="id"
           [(ngModel)]="task.projectId"
           required
-          #projectId="ngModel">
+          #projectId="ngModel"
+          placeholder="Project *">
         </ng-select>
         <div *ngIf="!projectId.valid" class="alert alert-danger">Project is required</div>
       </div>
       <div class="md-form">
-        <span class="grey-text">Assigned To</span>
         <!-- <select id="userId" class="form-control" [(ngModel)]="task.userId">
           <option *ngFor="let userName of allUserNames" [value]="userName.id">{{userName.fullName}}</option>
         </select> -->
@@ -52,11 +51,11 @@
           [items]="allUserNames"
           bindLabel="fullName"
           bindValue="id"
-          [(ngModel)]="task.userId">
+          [(ngModel)]="task.userId"
+          placeholder="Assigned To">
         </ng-select>
       </div>
       <div class="md-form">
-        <span class="grey-text">Parent</span>
         <!-- <select id="parentId" class="form-control" [(ngModel)]="task.parentId">
           <option *ngFor="let taskName of allTaskNames" [value]="taskName.id">{{taskName.summary}}</option>
         </select> -->
@@ -65,11 +64,11 @@
           [items]="allTaskNames"
           bindLabel="summary"
           bindValue="id"
-          [(ngModel)]="task.parentId">
+          [(ngModel)]="task.parentId"
+          placeholder="Parent">
         </ng-select>
       </div>
       <div class="md-form">
-        <span class="grey-text">Status</span>
         <!-- <select id="status" class="form-control" [(ngModel)]="task.status">
           <option value="NotStarted">Not Started</option>
           <option value="InProgress">In Progress</option>
@@ -77,7 +76,7 @@
           <option value="Suspended">Suspended</option>
           <option value="Completed">Completed</option>
         </select> -->
-        <ng-select id="status" name="status" [(ngModel)]="task.status">
+        <ng-select id="status" name="status" [(ngModel)]="task.status" placeholder="Status">
           <ng-option value="NotStarted">Not Started</ng-option>
           <ng-option value="InProgress">In Progress</ng-option>
           <ng-option value="Deferred">Deferred</ng-option>

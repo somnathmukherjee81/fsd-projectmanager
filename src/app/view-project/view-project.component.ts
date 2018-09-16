@@ -20,6 +20,7 @@ export class ViewProjectComponent implements OnInit, AfterViewInit {
   activeMode = 'ADD'; // ADD | EDIT
   allUserNames: any[];
   sortBy = 'startDate';
+  filterText: string;
 
   @ViewChild('sortByStartDate') sortByStartDate: ElementRef;
 
@@ -149,6 +150,15 @@ export class ViewProjectComponent implements OnInit, AfterViewInit {
     });
 
     this.sorted = !this.sorted;
+  }
+
+  filter() {
+    if (!this.filterText) {
+      return this.projects;
+    }
+
+    return this.projects.filter((project) =>
+      project.summary.toUpperCase().includes(this.filterText.toUpperCase()));
   }
 
 }

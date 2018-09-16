@@ -14,7 +14,14 @@
         <div class="card mb-2">
           <div class="card-body">
             <div class="md-form mt-0">
-              <input class="form-control mr-sm-2" type="text" placeholder="Search by project name">
+              <ng-select id="filterByProjectId" 
+                name="filterByProjectId" 
+                [items]="allProjectNames"
+                bindLabel="summary"
+                bindValue="id"
+                [(ngModel)]="filterByProjectId"
+                placeholder="Filter by project">
+              </ng-select>
             </div>
             Sort By: 
             <button mdbBtn type="button" class="btn btn-secondary btn-sm waves-light" mdbWavesEffect [(ngModel)]="sortBy" mdbRadio="summary" btnCheckboxTrue="1" btnCheckboxFalse="0" (click)="sort('summary')">
@@ -35,7 +42,7 @@
           </div>
         </div>
         <ul class="tasks">
-          <li *ngFor="let task of tasks" [class.selected]="task === selectedTask">
+          <li *ngFor="let task of filter()" [class.selected]="task === selectedTask">
             <div class="card mb-2" id="Task_{{task.taskId}}">
               <div class="card-body">
                 <h4 class="card-title">

@@ -22,12 +22,11 @@
         <input type="date" id="endDate" name="endDate" class="form-control" [(ngModel)]="project.endDate" mdbInputDirective placeholder="" [mdbValidate]="false">
       </div>
       <div class="md-form">
-        <label for="priority" class="">Priority</label>
+        <label for="priority" class="">Priority {{project.priority >= 0 ? '(' + project.priority + ')' : ''}}</label>
         <input type="range" id="priority" name="priority" class="form-control" [(ngModel)]="project.priority" mdbInputDirective min="0" max="4"
           step="1" [mdbValidate]="false">
       </div>
       <div class="md-form">
-        <span class="grey-text">Manager</span>
         <!-- <select id="userId" class="form-control" [(ngModel)]="project.managerId">
           <option *ngFor="let userName of allUserNames" [value]="userName.id">{{userName.fullName}}</option>
         </select> -->
@@ -36,11 +35,11 @@
           [items]="allUserNames"
           bindLabel="fullName"
           bindValue="id"
-          [(ngModel)]="project.managerId">
+          [(ngModel)]="project.managerId"
+          placeholder="Manager">
         </ng-select>
       </div>
       <div class="md-form">
-        <span class="grey-text">Status</span>
         <!-- <select id="status" class="form-control" [(ngModel)]="project.status">
           <option value="NotStarted">Not Started</option>
           <option value="InProgress">In Progress</option>
@@ -48,7 +47,7 @@
           <option value="Suspended">Suspended</option>
           <option value="Completed">Completed</option>
         </select> -->
-        <ng-select id="status" name="status" [(ngModel)]="project.status">
+        <ng-select id="status" name="status" [(ngModel)]="project.status" placeholder="Status">
           <ng-option value="NotStarted">Not Started</ng-option>
           <ng-option value="InProgress">In Progress</ng-option>
           <ng-option value="Deferred">Deferred</ng-option>

@@ -22,6 +22,7 @@ export class ViewUserComponent implements OnInit, AfterViewInit {
   activeMode = 'ADD'; // ADD | EDIT
   allProjectNames: any[];
   sortBy = 'employeeId';
+  filterText: string;
 
   @ViewChild('sortByEmployeeId') sortByEmployeeId: ElementRef;
 
@@ -136,6 +137,15 @@ export class ViewUserComponent implements OnInit, AfterViewInit {
     });
 
     this.sorted = !this.sorted;
+  }
+
+  filter() {
+    if (!this.filterText) {
+      return this.users;
+    }
+
+    return this.users.filter((user) =>
+      user.fullName.toUpperCase().includes(this.filterText.toUpperCase()));
   }
 
 }
