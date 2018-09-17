@@ -1,10 +1,49 @@
 <section>
   <div class="container py-3">
+    <h3 class="feature-title">Tasks</h3>
+    <div class="bc-icons-2">
+      <ol class="breadcrumb indigo lighten-4">
+        <li class="breadcrumb-item"><a class="black-text" href="#">Home</a>
+          <mdb-icon icon="caret-right" class="mx-2"></mdb-icon>
+        </li>
+        <li class="breadcrumb-item active">Tasks</li>
+      </ol>    
+    </div>
     <div class="row">
       <div class="col-md-8">
+        <div class="card mb-2">
+          <div class="card-body">
+            <div class="md-form mt-0">
+              <ng-select id="filterByProjectId" 
+                name="filterByProjectId" 
+                [items]="allProjectNames"
+                bindLabel="summary"
+                bindValue="id"
+                [(ngModel)]="filterByProjectId"
+                placeholder="Filter by project">
+              </ng-select>
+            </div>
+            Sort By: 
+            <button mdbBtn type="button" class="btn btn-secondary btn-sm waves-light" mdbWavesEffect [(ngModel)]="sortBy" mdbRadio="summary" btnCheckboxTrue="1" btnCheckboxFalse="0" (click)="sort('summary')">
+                Summary
+            </button>
+            <button #sortByStartDate mdbBtn type="button" class="btn btn-secondary btn-sm waves-light" mdbWavesEffect [(ngModel)]="sortBy" mdbRadio="startDate" btnCheckboxTrue="1" btnCheckboxFalse="0" (click)="sort('startDate')">
+              Start Date
+            </button>
+            <button mdbBtn type="button" class="btn btn-secondary btn-sm waves-light" mdbWavesEffect [(ngModel)]="sortBy" mdbRadio="endDate" btnCheckboxTrue="1" btnCheckboxFalse="0" (click)="sort('endDate')">
+              End Date
+            </button>
+            <button mdbBtn type="button" class="btn btn-secondary btn-sm waves-light" mdbWavesEffect [(ngModel)]="sortBy" mdbRadio="priority" btnCheckboxTrue="1" btnCheckboxFalse="0" (click)="sort('priority')">
+              Priority
+            </button>
+            <button mdbBtn type="button" class="btn btn-secondary btn-sm waves-light" mdbWavesEffect [(ngModel)]="sortBy" mdbRadio="status" btnCheckboxTrue="1" btnCheckboxFalse="0" (click)="sort('status')">
+              Status
+            </button>
+          </div>
+        </div>
         <ul class="tasks">
-          <li *ngFor="let task of tasks" [class.selected]="task === selectedTask">
-            <div class="card mb-2" id="Task_{{task.taskID}}">
+          <li *ngFor="let task of filter()" [class.selected]="task === selectedTask">
+            <div class="card mb-2" id="Task_{{task.taskId}}">
               <div class="card-body">
                 <h4 class="card-title">
                   <strong>{{task.summary}}</strong>
@@ -16,19 +55,29 @@
                   <span *ngIf="task.endDate">
                     <strong>End By: </strong>{{task.endDate | date: 'dd MMM yyyy'}}</span>
                 </p>
-                <p class="card-text" *ngIf="task.parentID >= 0">
+                <p class="card-text" *ngIf="task.projectId >= 0">
+                  <strong>Project: </strong>
+                  <a routerLink="." fragment="Project_{{task.projectId}}">{{getProjectSummary(task.projectId)}}</a>
+                </p>
+                <p class="card-text" *ngIf="task.userId >= 0">
+                  <strong>Assigned To: </strong>
+                  <a routerLink="." fragment="User_{{task.userId}}">{{getUserFullName(task.userId)}}</a>
+                </p>
+                <p class="card-text" *ngIf="task.parentId >= 0">
                   <strong>Parent Task: </strong>
-                  <a routerLink="." fragment="Task_{{task.parentID}}">{{getTaskSummary(task.parentID)}}</a>
+                  <a routerLink="." fragment="Task_{{task.parentId}}">{{getTaskSummary(task.parentId)}}</a>
                 </p>
                 <p class="card-text">
                   <span *ngIf="task.priority >= 0">
                     <strong>Priority: </strong>{{task.priority}} </span>
-                  <span *ngIf="task.status >= 0">
+                  <span *ngIf="task.status">
                     <strong>Status: </strong>{{task.status}} </span>
                 </p>
-                <button type="button" class="btn btn-primary btn-sm waves-light" mdbWavesEffect (click)="onSelect(task)" [disabled]="task.status === 3">
+                <button type="button" class="btn btn-primary btn-sm waves-light" mdbWavesEffect (click)="onSelect(task)" [disabled]="task.status === 'Completed'">
                   <i class="fa fa-lg fa-edit mr-1"></i> Edit</button>
-                <button type="button" class="btn btn-secondary btn-sm waves-light" (click)="completeTask(task)" mdbWavesEffect [disabled]="task.status === 3">
+                <button type="button" class="btn btn-secondary btn-sm waves-light" (click)="suspendTask(task)" mdbWavesEffect [disabled]="task.status === 'Suspended' || task.status === 'Completed'">
+                  <i class="fa fa-lg fa-archive mr-1"></i> Suspend Task</button>
+                <button type="button" class="btn btn-secondary btn-sm waves-light" (click)="completeTask(task)" mdbWavesEffect [disabled]="task.status === 'Completed'">
                   <i class="fa fa-lg fa-check mr-1"></i> End Task</button>
                 <button type="button" class="btn btn-danger btn-sm waves-light" (click)="delete(task)" mdbWavesEffect>
                   <i class="fa fa-lg fa-remove mr-1"></i> Delete Task</button>
@@ -38,8 +87,15 @@
         </ul>
       </div>
       <div class="col-md-4">
-        <app-add-update-task [task]="selectedTask" [allTaskNames]="allTaskNames" [mode]="activeMode" (taskAdded)="onTaskAdded($event)"
-          (taskUpdated)="onTaskUpdated($event)" (resetMode)="onResetMode($event)"></app-add-update-task>
+        <app-add-update-task 
+          [task]="selectedTask" 
+          [allTaskNames]="allTaskNames" 
+          [allProjectNames]="allProjectNames" 
+          [allUserNames]="allUserNames"
+          [mode]="activeMode" 
+          (taskAdded)="onTaskAdded($event)"
+          (taskUpdated)="onTaskUpdated($event)" 
+          (resetMode)="onResetMode($event)"></app-add-update-task>
       </div>
     </div>
   </div>

@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@ng-select/ng-select/themes/material.theme.css";
+
+.bc-icons-2 .breadcrumb-item + .breadcrumb-item::before {
+    content: none; 
+}
+
+.bc-icons-2 .breadcrumb-item.active {
+    color: #455a64; 
+}

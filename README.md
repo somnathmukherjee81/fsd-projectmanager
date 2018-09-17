@@ -31,7 +31,13 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 ## UI Design
-[![UI Design of Task manager](./design/FrontEndUiDesign.png)](./design/FrontEndUiDesign.png)
+[![UI Design of Project manager](./design/FrontEndDesign-UI.png)](./design/FrontEndDesign-UI.png)
 
-## Sequence Diagram
-[![Sequence Diagram of Task manager](./design/FrontEndSequenceDiagram.png)](./design/FrontEndSequenceDiagram.png)
+## Sequence Diagram - Project Management
+[![Sequence Diagram of Project Management](./design/FrontEndDesign-Project-Management-Sequence.png)](./design/FrontEndDesign-Project-Management-Sequence.png)
+
+## Sequence Diagram - Task Management
+[![Sequence Diagram of Task Management](./design/FrontEndDesign-Task-Management-Sequence.png)](./design/FrontEndDesign-Task-Management-Sequence.png)
+
+## Sequence Diagram - User Management
+[![Sequence Diagram of User Management](./design/FrontEndDesign-User-Management-Sequence.png)](./design/FrontEndDesign-User-Management-Sequence.png)

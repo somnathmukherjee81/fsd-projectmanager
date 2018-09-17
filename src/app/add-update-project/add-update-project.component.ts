@@ -1,33 +1,30 @@
 import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Task } from '../models/task';
+import { Project } from '../models/project';
 import { ProjectManagerService } from './../projectmanager.service';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-add-update-task',
-  templateUrl: './add-update-task.component.html',
-  styleUrls: ['./add-update-task.component.scss']
+  selector: 'app-add-update-project',
+  templateUrl: './add-update-project.component.html',
+  styleUrls: ['./add-update-project.component.scss']
 })
-export class AddUpdateTaskComponent implements OnInit {
+export class AddUpdateProjectComponent implements OnInit {
   activeMode = 'ADD'; // ADD | EDIT
-  title = 'Add Task';
-  saveButtonTitle = 'Add Task';
+  title = 'Add Project';
+  saveButtonTitle = 'Add Project';
   cancelButtonTitle = 'Reset';
   submitted = false;
 
-  @Input() task: Task = {
-    taskId: null,
+  @Input() project: Project = {
+    projectId: null,
     summary: null,
-    projectId: null
   };
 
-  @Input() allTaskNames: any[];
-  @Input() allProjectNames: any[];
   @Input() allUserNames: any[];
 
-  @Output() taskAdded = new EventEmitter<Task>();
-  @Output() taskUpdated = new EventEmitter<Task>();
+  @Output() projectAdded = new EventEmitter<Project>();
+  @Output() projectUpdated = new EventEmitter<Project>();
   @Output() resetMode = new EventEmitter<void>();
 
   constructor(
@@ -39,8 +36,8 @@ export class AddUpdateTaskComponent implements OnInit {
 
   @Input()
   set mode(mode: string) {
-    this.title = mode === 'ADD' ? 'Add Task' : 'Edit Task';
-    this.saveButtonTitle = mode === 'ADD' ? 'Add Task' : 'Update';
+    this.title = mode === 'ADD' ? 'Add Project' : 'Edit Project';
+    this.saveButtonTitle = mode === 'ADD' ? 'Add Project' : 'Update';
     this.cancelButtonTitle = mode === 'ADD' ? 'Reset' : 'Cancel';
     this.activeMode = mode;
 
@@ -61,20 +58,20 @@ export class AddUpdateTaskComponent implements OnInit {
   }
 
   private update(): void {
-    this.projectManagerService.updateTask(this.task)
-    .subscribe(task => {
-      this.taskUpdated.emit(task);
+    this.projectManagerService.updateProject(this.project)
+    .subscribe(project => {
+      this.projectUpdated.emit(project);
     });
   }
 
   add(): void {
-    const summary = this.task.summary ? this.task.summary.trim() : '';
+    const summary = this.project.summary ? this.project.summary.trim() : '';
 
     if (!summary) { return; }
 
-    this.projectManagerService.addTask(this.task)
-      .subscribe(task => {
-        this.taskAdded.emit(task);
+    this.projectManagerService.addProject(this.project)
+      .subscribe(project => {
+        this.projectAdded.emit(project);
       });
   }
 

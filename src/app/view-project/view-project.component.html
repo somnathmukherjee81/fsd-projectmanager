@@ -1,0 +1,91 @@
+<section>
+  <div class="container py-3">
+    <h3 class="feature-title">Projects</h3>
+    <div class="bc-icons-2">
+      <ol class="breadcrumb indigo lighten-4">
+        <li class="breadcrumb-item"><a class="black-text" href="#">Home</a>
+          <mdb-icon icon="caret-right" class="mx-2"></mdb-icon>
+        </li>
+        <li class="breadcrumb-item active">Projects</li>
+      </ol>    
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card mb-2">
+          <div class="card-body">
+            <div class="md-form mt-0">
+              <input class="form-control mr-sm-2" type="text" placeholder="Filter by project name" [(ngModel)]="filterText" id="filterBySummary" class="form-control" mdbInputDirective [mdbValidate]="false">
+            </div>
+            Sort By: 
+            <button mdbBtn type="button" class="btn btn-secondary btn-sm waves-light" mdbWavesEffect [(ngModel)]="sortBy" mdbRadio="summary" btnCheckboxTrue="1" btnCheckboxFalse="0" (click)="sort('summary')">
+              Summary
+            </button>
+            <button #sortByStartDate mdbBtn type="button" class="btn btn-secondary btn-sm waves-light" mdbWavesEffect [(ngModel)]="sortBy" mdbRadio="startDate" btnCheckboxTrue="1" btnCheckboxFalse="0" (click)="sort('startDate')">
+              Start Date
+            </button>
+            <button mdbBtn type="button" class="btn btn-secondary btn-sm waves-light" mdbWavesEffect [(ngModel)]="sortBy" mdbRadio="endDate" btnCheckboxTrue="1" btnCheckboxFalse="0" (click)="sort('endDate')">
+              End Date
+            </button>
+            <button mdbBtn type="button" class="btn btn-secondary btn-sm waves-light" mdbWavesEffect [(ngModel)]="sortBy" mdbRadio="priority" btnCheckboxTrue="1" btnCheckboxFalse="0" (click)="sort('priority')">
+              Priority
+            </button>
+            <button mdbBtn type="button" class="btn btn-secondary btn-sm waves-light" mdbWavesEffect [(ngModel)]="sortBy" mdbRadio="status" btnCheckboxTrue="1" btnCheckboxFalse="0" (click)="sort('status')">
+              Status
+            </button>
+          </div>
+        </div>
+        <ul class="projects">
+          <li *ngFor="let project of filter()" [class.selected]="project === selectedProject">
+            <div class="card mb-2" id="Project_{{project.projectId}}">
+              <div class="card-body">
+                <h4 class="card-title">
+                  <strong>{{project.summary}}</strong>
+                </h4>
+                <p class="card-text" *ngIf="project.description">{{project.description}}</p>
+                <p class="card-text">
+                  <span *ngIf="project.startDate">
+                    <strong>Start By: </strong>{{project.startDate | date: 'dd MMM yyyy'}}, </span>
+                  <span *ngIf="project.endDate">
+                    <strong>End By: </strong>{{project.endDate | date: 'dd MMM yyyy'}}</span>
+                </p>
+                <p class="card-text" *ngIf="project.managerId >= 0">
+                  <strong>Manager: </strong>
+                  <a routerLink="." fragment="User_{{project.managerId}}">{{getUserFullName(project.managerId)}}</a>
+                </p>
+                <p class="card-text">
+                  <span *ngIf="project.priority >= 0">
+                    <strong>Priority: </strong>{{project.priority}} </span>
+                  <span *ngIf="project.status">
+                    <strong>Status: </strong>{{project.status}} </span>
+                </p>
+                <p class="card-text">
+                  <span>
+                    <strong>Number of Tasks: </strong>{{project.numberOfTasks}} </span>
+                  <span>
+                    <strong>Completed: </strong>{{project.numberOfCompletedTasks}} </span>
+                </p>
+                <button type="button" class="btn btn-primary btn-sm waves-light" mdbWavesEffect (click)="onSelect(project)" [disabled]="project.status === 'Completed'">
+                  <i class="fa fa-lg fa-edit mr-1"></i> Edit</button>
+                <button type="button" class="btn btn-secondary btn-sm waves-light" (click)="suspendProject(project)" mdbWavesEffect [disabled]="project.status === 'Suspended' || project.status === 'Completed'">
+                  <i class="fa fa-lg fa-archive mr-1"></i> Suspend Project</button>
+                <button type="button" class="btn btn-secondary btn-sm waves-light" (click)="completeProject(project)" mdbWavesEffect [disabled]="project.status === 'Completed'">
+                  <i class="fa fa-lg fa-check mr-1"></i> End Project</button>
+                <button type="button" class="btn btn-danger btn-sm waves-light" (click)="delete(project)" mdbWavesEffect>
+                  <i class="fa fa-lg fa-remove mr-1"></i> Delete Project</button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <app-add-update-project 
+          [project]="selectedProject" 
+          [allUserNames]="allUserNames"
+          [mode]="activeMode" 
+          (projectAdded)="onProjectAdded($event)"
+          (projectUpdated)="onProjectUpdated($event)" 
+          (resetMode)="onResetMode($event)"></app-add-update-project>
+      </div>
+    </div>
+  </div>
+</section>

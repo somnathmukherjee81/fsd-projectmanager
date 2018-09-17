@@ -1,102 +1,111 @@
 import { Task } from './task';
-import moment from 'moment/src/moment';
-
-const localMoment = moment;
-localMoment.locale('en');
 
 export const TASKS: Task[] = [
     {
         $id: '14',
-        taskID: 1,
+        taskId: 1,
         summary: 'Mock - Implement Channel Service',
         description: 'Implement Channel Service for the feature which will invoke the factories',
         startDate: '2018-07-02T00:00:00',
         endDate: '2018-07-06T00:00:00',
         priority: 3,
-        status: 0
+        status: 'NotStarted',
+        projectId: 1
     },
     {
         $id: '15',
-        taskID: 2,
+        taskId: 2,
         summary: 'Mock - Implement Front End Service',
         description: 'Implement Front End Service for the feature which will invoke the Channel Service',
         startDate: '2018-07-09T00:00:00',
         endDate: '2018-07-13T00:00:00',
         priority: 3,
-        status: 0
+        status: 'NotStarted',
+        projectId: 1
     },
     {
         $id: '16',
-        taskID: 3,
+        taskId: 3,
         summary: 'Mock - Implement Front End',
         description: 'Implement Front End for the feature which will invoke the Front End Service',
         startDate: '2018-07-16T00:00:00',
         endDate: '2018-07-20T00:00:00',
         priority: 3,
-        status: 0
+        status: 'NotStarted',
+        projectId: 1
     },
     {
         $id: '17',
-        taskID: 4,
-        parentID: 1,
-        summary: 'Mock - Create Channel Service Repository'
+        taskId: 4,
+        parentId: 1,
+        summary: 'Mock - Create Channel Service Repository',
+        projectId: 1
     },
     {
         $id: '18',
-        taskID: 5,
-        parentID: 1,
-        summary: 'Mock - Create ASP.Net Core WebApi for Channel Service'
+        taskId: 5,
+        parentId: 1,
+        summary: 'Mock - Create ASP.Net Core WebApi for Channel Service',
+        projectId: 1
     },
     {
         $id: '19',
-        taskID: 6,
-        parentID: 1,
-        summary: 'Mock - Create CI/CD pipeline for Channel Service'
+        taskId: 6,
+        parentId: 1,
+        summary: 'Mock - Create CI/CD pipeline for Channel Service',
+        projectId: 1
     },
     {
         $id: '20',
-        taskID: 7,
-        parentID: 2,
-        summary: 'Mock - Create Front End Service Repository'
+        taskId: 7,
+        parentId: 2,
+        summary: 'Mock - Create Front End Service Repository',
+        projectId: 1
     },
     {
         $id: '21',
-        taskID: 8,
-        parentID: 2,
-        summary: 'Mock - Create Node.js service for Front End Service'
+        taskId: 8,
+        parentId: 2,
+        summary: 'Mock - Create Node.js service for Front End Service',
+        projectId: 1
     },
     {
         $id: '22',
-        taskID: 9,
-        parentID: 2,
-        summary: 'Mock - Create CI/CD pipeline for Front End Service'
+        taskId: 9,
+        parentId: 2,
+        summary: 'Mock - Create CI/CD pipeline for Front End Service',
+        projectId: 1
     },
     {
         $id: '23',
-        taskID: 10,
-        parentID: 3,
-        summary: 'Mock - Create Front End Repository'
+        taskId: 10,
+        parentId: 3,
+        summary: 'Mock - Create Front End Repository',
+        projectId: 1
     },
     {
         $id: '24',
-        taskID: 11,
-        parentID: 3,
-        summary: 'Mock - Create React/Redux Implementation of the Front End'
+        taskId: 11,
+        parentId: 3,
+        summary: 'Mock - Create React/Redux Implementation of the Front End',
+        projectId: 1
     },
     {
         $id: '25',
-        taskID: 12,
-        parentID: 3,
-        summary: 'Mock - Create CI/CD pipeline for Front End'
+        taskId: 12,
+        parentId: 3,
+        summary: 'Mock - Create CI/CD pipeline for Front End',
+        projectId: 1
     },
     {
         $id: '26',
-        taskID: 14,
+        taskId: 14,
         summary: 'Mock - Create Release Definitions',
         description: 'Create Release Definitions in Microsoft Azure',
         startDate: '2018-07-23T00:00:00',
         endDate: '2018-07-27T00:00:00',
         priority: 3,
-        status: 0
+        status: 'NotStarted',
+        projectId: 1
     }
 ];

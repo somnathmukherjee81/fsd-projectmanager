@@ -1,0 +1,42 @@
+<div class="card mb-2 sticky-top">
+  <div class="card-body" *ngIf="user">
+    <h4 class="card-title">
+      <strong>{{title}}</strong>
+    </h4>
+    <form #addUpdateUserForm="ngForm" (ngSubmit)="save(addUpdateUserForm)">
+      <div class="md-form">
+        <label for="employeeId" class="">Employee Id{{activeMode === 'ADD' ? ' (Auto Generated)' : ''}}</label>
+        <input type="text" id="employeeId" name="employeeId" class="form-control" [(ngModel)]="user.employeeId" mdbInputDirective disabled [mdbValidate]="false">
+      </div>
+      <div class="md-form">        
+        <label for="firstName" class="">First Name *</label>
+        <input type="text" id="firstName" name="firstName" class="form-control" [(ngModel)]="user.firstName" #firstName="ngModel" mdbInputDirective [mdbValidate]="false" required maxlength="500">
+        <div *ngIf="!firstName.valid" class="alert alert-danger">First Name is required</div>
+      </div>
+      <div class="md-form">
+        <label for="lastName" class="">Last Name *</label>
+        <input type="text" id="lastName" name="lastName" class="form-control" [(ngModel)]="user.lastName" #lastName="ngModel" mdbInputDirective [mdbValidate]="false" required maxlength="500">
+        <div *ngIf="!lastName.valid" class="alert alert-danger">Last Name is required</div>
+      </div>
+      <div class="md-form">
+        <!-- <select id="projectId" class="form-control" [(ngModel)]="user.projectId">
+          <option *ngFor="let projectName of allProjectNames" [value]="projectName.id">{{projectName.summary}}</option>
+        </select> -->
+        <ng-select id="projectId"
+          name="projectId" 
+          [items]="allProjectNames"
+          bindLabel="summary"
+          bindValue="id"
+          [(ngModel)]="user.projectId"
+          placeholder="Project">
+        </ng-select>
+      </div>
+      <div class="md-form">
+        <button type="submit" class="btn btn-default btn-md waves-light" mdbWavesEffect [disabled]="!addUpdateUserForm.form.valid">
+          <i class="fa fa-lg fa-save mr-1"></i> {{saveButtonTitle}}</button>
+        <button type="button" class="btn btn-blue-grey btn-md waves-light" (click)="cancel()" mdbWavesEffect>
+          <i class="fa fa-lg fa-remove mr-1"> </i> {{cancelButtonTitle}}</button>
+      </div>
+    </form>
+  </div>
+</div>
